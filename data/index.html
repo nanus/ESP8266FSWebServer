@@ -1,0 +1,30 @@
+
+  <html>
+    <head>
+      <script>
+      var connection = new WebSocket('ws://'+location.hostname+':81/', ['arduino']);
+      connection.onopen = function () {
+        connection.send('Connect ' + new Date());
+      };
+      connection.onerror = function (error) {
+        console.log('WebSocket Error ', error);
+      };
+      connection.onmessage = function (e) {
+        console.log('Server: ', e.data);
+      };
+
+      function sendRotation() {
+        var r = parseInt(document.getElementById('r').value).toString();
+        r = '#' + r;
+        console.log('Rotation: ' + r);
+        connection.send(r);
+      }
+      </script>
+    </head>";
+
+  <body>
+    Rotation Control:<br/><br/>R:
+    <input id=\"r\" type=\"range\" min=\"0\" max=\"360\" step=\"1\" onchange=\"sendRotation();\" />
+    <br/><br/>
+  </body>
+  </html>";
